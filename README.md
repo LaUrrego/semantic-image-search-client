@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# React Client Application for Image Gallery with Semantic Search
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This React application serves as the client-side for a photo storage app, integrating with Supabase for authentication, storage, and handling image uploads. It allows users to log in using magic links, upload images, and view a gallery of their uploaded images. The application also integrates with a Python microservice to generate and store embeddings for images, enabling semantic search capabilities.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- User authentication with Supabase using magic links.
+- Image upload functionality to Supabase storage.
+- Gallery view of uploaded images with the option to delete.
+- Integration with a Python FastAPI microservice for generating image embeddings.
 
-### `npm start`
+## Prerequisites
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Before you start, make sure you have the following:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js installed on your machine.
+- A Supabase account and project set up for the database and authentication.
+- The `.env` file configured with your Supabase URL (`REACT_APP_SB_URL`), API key (`REACT_APP_SB_API_KEY`), and CDN URL (`REACT_APP_CDNURL`).
 
-### `npm test`
+## Setup and Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Clone the repository to your local machine.
+2. Navigate to the project directory and install the dependencies:
 
-### `npm run build`
+```
+    npm install
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Create a `.env` file in the root of your project directory and fill in your Supabase details:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+    REACT_APP_SB_URL=your_supabase_url
+    REACT_APP_SB_API_KEY=your_supabase_api_key
+    REACT_APP_CDNURL=your_cdn_url_for_images
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. To start the application, run:
 
-### `npm run eject`
+```
+    npm start
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+This will launch the application on `http://localhost:3000`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Usage
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Logging In
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Open the application in your browser.
+- Enter your email address and click "Get Link" to receive a magic link for authentication.
+- Check your email and click on the magic link to log in.
 
-## Learn More
+### Uploading Images
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Once logged in, you can upload images by clicking the "choose file" button.
+- Select an image file (PNG or JPEG) and it will automatically upload to your gallery.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Viewing the Gallery
 
-### Code Splitting
+- After uploading, images will appear in the gallery section.
+- Each image can be deleted using the "Delete Image" button below it.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Logging Out
 
-### Analyzing the Bundle Size
+- To log out, click the "Sign Out" button at the top of the page.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Integration with Python Microservice
 
-### Making a Progressive Web App
+- The React application sends the image URL to the Python microservice for embedding generation.
+- The microservice returns the embedding, which is then stored in Supabase by the React application.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Contributing
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Contributions to the project are welcome. Please ensure you follow the established code style and add unit tests for any new or changed functionality.
