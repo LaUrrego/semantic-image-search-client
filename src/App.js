@@ -57,23 +57,24 @@ function App() {
       email:email
     });
     if(error){
-      alert("Error communicating with Supabase, make sure to use a real email address")
-      console.log(error)
+      alert("Error communicating with Supabase, make sure to use a real email address");
+      console.log(error);
     } else {
-      alert("Check your e-mail for a Supabase magiclink!")
+      alert("Check your e-mail for a Supabase magiclink!");
     }
   }
 
   // function to signout a user, leveraging useUser
   async function signOut(){
     const {error} = await supabase.auth.signOut();
-  }
+    if(error){console.log("error logging out: ", error)};
+  };
   
   // function to upload an image to Supabase 
   async function uploadImage(e){
     // grab the file from target, first item
     
-    let file = e.target.files[0]
+    let file = e.target.files[0];
     const imageUuid = uuidv4();
     const imagePath = `${user.id}/${imageUuid}`;
 
@@ -84,16 +85,22 @@ function App() {
       .upload(imagePath, file) // get the user's id, and attach a unique identifier + the file
       
       if (data) {
-        let data = new FormData()
-        data.append('imageUrl', CDNURL + imagePath)
+        let sendData = {
+          'imageUrl': CDNURL + imagePath
+        }
 
         // Send data to Python server
         fetch('http://127.0.0.1:8000/upload', {
           method: 'POST',
-          body: data
+          headers: {
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify(sendData)
         }).then(
+          // response contains an embedding 
           response => response.json()
         ).then(
+          // store in database
           async response => {
             const { data, error } = await supabase.from('images').insert({
               user_id: user.id,
@@ -127,7 +134,17 @@ function App() {
       const {error} = await supabase
       .storage
       .from('images')
-      .remove([ user.id + '/' + imageName]);
+      .remove([ user.id + '/' + imageName])
+      .then(
+        async ()=>{
+          const {error} = await supabase
+          .from('images')
+          .delete()
+          .eq('image_id', imageName)
+          
+          if(error){alert(error)}
+        }
+      )
     
     if(error){
       alert(error)
@@ -191,7 +208,8 @@ function App() {
                     <Card>
                       <Card.Img variant='top' src={CDNURL + user.id + '/' + image.name}/>
                       <Card.Body>
-                        <Button variant='danger' onClick={()=> deleteImage(image.name)}>Delete Image</Button>
+                        <Button variant='danger' onClick={()=> deleteImage(image.name)}>Delete Image</Button>{' '}
+                        <Button variant='primary' href={CDNURL + user.id + '/' + image.name} >Full Size</Button>
                       </Card.Body>
                     </Card>
                   </Col>
