@@ -131,29 +131,37 @@ function App() {
   async function deleteImage(imageName){
     // provide a confirmation of deletion
     if(window.confirm("Are you sure you want to delete?")){
-      const {error} = await supabase
-      .storage
-      .from('images')
-      .remove([ user.id + '/' + imageName])
-      .then(
-        async ()=>{
-          const {error} = await supabase
+      try {
+        // attempt to remove from supabase storage
+        const {error: storageError} = await supabase
+          .storage
+          .from('images')
+          .remove([ user.id + '/' + imageName])
+        
+        // storage error detected
+        if (storageError){
+          alert(storageError.message);
+          return;
+        }
+
+        // attempt to remove from supabase database
+        const {error: dbError} = await supabase
           .from('images')
           .delete()
           .eq('image_id', imageName)
-          
-          if(error){alert(error)}
+        
+        // database delete error detected
+        if (dbError){
+          alert(dbError.message);
+        } else {
+          // no errors with deleting from either
+          getImages();
         }
-      )
-    
-    if(error){
-      alert(error)
-    } else {
-      // as long as there as no errors, refresh to get all images again
-      getImages();
-    };
-    }
 
+      } catch (error){
+        alert("An unexpected error occurred:", error.message);
+      }
+    }
   };
 
   return (
