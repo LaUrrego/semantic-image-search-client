@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
 
 export default function SearchResults({results, showResult, setShowResult, deleteImage}) {
-  //const [showResult, setShowResult] = useState(false);
 
   return (
     <>

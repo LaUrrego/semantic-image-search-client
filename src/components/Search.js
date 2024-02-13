@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 // container from bootstrap to allow for consistent styling
 import { Container, Form, Button, Row, Col, Card, InputGroup } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { useSession, useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import SearchResults from './SearchResults';
 
 
