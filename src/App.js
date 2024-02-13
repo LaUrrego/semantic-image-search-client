@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSession, useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 // used to generate unique user id's to attach to images
 import { v4 as uuidv4 } from 'uuid'
+import Search from './components/Search'
 
 
 const CDNURL = process.env.REACT_APP_CDNURL;
@@ -199,8 +200,10 @@ function App() {
           <p>Current user: {user.email}</p>
           <hr/>
           <p>Use the choose file button to upload images to your gallery. Use PNG and JPEG only.</p>
+          <Search deleteImage={deleteImage}></Search>
           <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
             <Form.Control type='file' accept='img/png, img/jpeg' onChange={(e)=> uploadImage(e)}></Form.Control>
+            
           </Form.Group>
           <hr/>
           <h3>Your Images</h3>
