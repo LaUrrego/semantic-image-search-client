@@ -1,5 +1,5 @@
 import Modal from 'react-bootstrap/Modal';
-import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
+import { Button, Row, Col, Card } from 'react-bootstrap';
 
 export default function SearchResults({results, showResult, setShowResult, deleteImage}) {
 

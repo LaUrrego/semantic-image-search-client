@@ -18,8 +18,10 @@ function App() {
   const session = useSession()
   const supabase = useSupabaseClient();
   const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [images, setImages] = useState([])
   console.log(email)
+  console.log(password)
 
   // function to get all images from a user's folder
   async function getImages(){
@@ -53,17 +55,35 @@ function App() {
   },[user]);
 
   // function to use the entered e-mail with Supabase authentication and useState
-  async function magicLinkLogin() {
-    const {data, error} = await supabase.auth.signInWithOtp({
-      email:email
+  async function loginPage() {
+    const {data, error} = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password
     });
+
+    if(data){console.log(data)}
     if(error){
-      alert("Error communicating with Supabase, make sure to use a real email address");
+      alert("Error communicating with Supabase, make sure to use a real e-mail address");
       console.log(error);
     } else {
-      alert("Check your e-mail for a Supabase magiclink!");
+      alert("Welcome Back!");
     }
-  }
+  };
+
+  async function signUp() {
+    const {data, error} = await supabase.auth.signUp({
+      email: email,
+      password: password
+    });
+
+    if (data){console.log(data)}
+    if (error){
+      alert("Error communicating with Supabase, make sure to use a real e-mail and password with 6 character minimum!");
+      console.log(error);
+    } else {
+      alert("Check your e-mail for a confirmation link!");
+    }
+  };
 
   // function to signout a user, leveraging useUser
   async function signOut(){
@@ -176,20 +196,46 @@ function App() {
       {
         user === null ? 
         <>
-          <h1>Welcome</h1>
-          <Form>
-            <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
-              <Form.Label>Enter an e-mail to sign-in using supabase link</Form.Label>
-              <Form.Control
-              type='email'
-              placeholder='Input e-mail'
-              onChange={(e)=> setEmail(e.target.value)}
-              />
-            </Form.Group>
-            <Button variant='primary' onClick={()=> magicLinkLogin()}>
-                Get Link
-            </Button>
-          </Form>
+          <h1>Welcome to Pic-Search!</h1>
+          <Card style={{maxWidth:"600px"}}>
+            <Card.Body>
+              <Card.Header></Card.Header>
+                <Form>
+                  <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
+                    <Form.Text className='my-3'>
+                      Enter your login details to continue. If it's your first time here, enter a new e-mail and password (6 character minimum) to sign up! You will need to confirm your e-mail before getting started!
+                    </Form.Text>
+
+                    <Form.Group>
+                    <Form.Label className='my-3' htmlFor='email'>E-mail:</Form.Label>
+                    <Form.Control
+                    type='email'
+                    id="email"
+                    onChange={(e)=> setEmail(e.target.value)}
+                    />
+                    </Form.Group>
+
+                    <Form.Group>
+                    <Form.Label className='my-3' htmlFor="inputPassword">Password:</Form.Label>
+                    <Form.Control
+                    type="password"
+                    id="inputPassword"
+                    onChange={(e)=>setPassword(e.target.value)}
+                    />
+                    </Form.Group>
+
+                  </Form.Group>
+                  <Button variant='primary' onClick={()=> loginPage()}>
+                      Login
+                  </Button>
+                  {" "}
+                  <Button variant='primary' onClick={()=> signUp()}>
+                      Sign Up
+                  </Button>
+                  
+                </Form>
+            </Card.Body>
+          </Card>
         </>
 
         :
@@ -212,7 +258,7 @@ function App() {
               * getting images is then:
                CDNURL + user.id + '/' + image.name  */
             }
-            <Row xs={1} md={3} className='g-4'>
+            <Row xs={1} md={4} className='g-4'>
               {images.map((image)=>{
                 return(
                   <Col key={CDNURL + user.id + '/' + image.name}>
