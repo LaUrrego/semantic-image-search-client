@@ -1,13 +1,13 @@
 # React Client Application for Image Gallery with Semantic Search
 
-This React application serves as the client-side for a photo storage app, integrating with Supabase for authentication, storage, and handling image uploads. It allows users to log in using magic links, upload images, and view a gallery of their uploaded images. The application also integrates with a Python microservice to generate and store embeddings for images, enabling semantic search capabilities.
+This React project serves as the client-side for an AI augmented photo storage and semantic search app, integrating Supabase for authentication, storage, and handling image uploads. It allows users to log in using magic links or traditional e-mail/password, upload images, and view a gallery of their uploaded images. The application also integrates with a Python microservice to generate embeddings for images and search prompts, enabling semantic search capabilities. The microservice can be found [here](https://github.com/LaUrrego/semantic-image-search-microservice).
 
 ## Features
 
-- User authentication with Supabase using magic links.
+- User authentication with Supabase using magic links and e-mail/passwords.
 - Image upload functionality to Supabase storage.
-- Gallery view of uploaded images with the option to delete.
-- Integration with a Python FastAPI microservice for generating image embeddings.
+- Gallery view of uploaded images with the option to delete and view larger sizes.
+- Integration with a Python FastAPI microservice for generating image and prompt embeddings.
 
 ## Prerequisites
 
@@ -58,7 +58,7 @@ This will launch the application on `http://localhost:3000`.
 ### Viewing the Gallery
 
 - After uploading, images will appear in the gallery section.
-- Each image can be deleted using the "Delete Image" button below it.
+- Each image can be deleted using the "Delete Image" button below it as well as a "View Larger" button to see the full size that was uploaded.
 
 ### Logging Out
 
@@ -68,6 +68,8 @@ This will launch the application on `http://localhost:3000`.
 
 - The React application sends the image URL to the Python microservice for embedding generation.
 - The microservice returns the embedding, which is then stored in Supabase by the React application.
+- When searching, the prompt is sent to the microservice which in turn responds with a corresponding embedding. 
+- Using the same model for both ensures useable results. Matches are done through cosine similarity, written as Postgres function and queried to return a table of results belonging only to the current user, and matching with a similarity threshold of 0.24 or more. This value was determined based on the CLIP model's training on [Unsplash](https://unsplash.com/) images and results when conducting comparisons with controlled search inputs. Later work will look at reinforcing a variation of this model to achieve a high confidence match by training it on a variety of image/text pair inputs. 
 
 ## Contributing
 
