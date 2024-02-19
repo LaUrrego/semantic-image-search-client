@@ -7,6 +7,8 @@ import { useSession, useUser, useSupabaseClient } from '@supabase/auth-helpers-r
 // used to generate unique user id's to attach to images
 import { v4 as uuidv4 } from 'uuid'
 import Search from './components/Search'
+// Styling to accomodate various sized images
+import Masonry from 'react-masonry-css'
 
 
 const CDNURL = process.env.REACT_APP_CDNURL;
@@ -241,7 +243,7 @@ function App() {
         :
 
         <>
-          <h1>Your Gallery</h1>
+          <h1>Welcome to Pic-Search!</h1>
           <Button onClick={()=> signOut()}>Sign Out</Button>
           <p>Current user: {user.email}</p>
           <hr/>
@@ -252,28 +254,29 @@ function App() {
             
           </Form.Group>
           <hr/>
-          <h3>Your Images</h3>
-            {
-              /** 
-              * getting images is then:
-               CDNURL + user.id + '/' + image.name  */
-            }
-            <Row xs={1} md={4} className='g-4'>
-              {images.map((image)=>{
-                return(
-                  <Col key={CDNURL + user.id + '/' + image.name}>
-                    <Card>
-                      <Card.Img variant='top' src={CDNURL + user.id + '/' + image.name}/>
-                      <Card.Body>
-                        <Button variant='danger' onClick={()=> deleteImage(image.name)}>Delete Image</Button>{' '}
-                        <Button variant='primary' href={CDNURL + user.id + '/' + image.name} >Full Size</Button>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                )
-              })}
-            </Row>
-
+          <h3>Your Gallery</h3>
+            {/** getting images is then: CDNURL + user.id + '/' + image.name 
+            /*https://www.npmjs.com/package/react-masonry-css*/}
+            <Masonry
+            breakpointCols={{
+              default: 4,
+              1100: 3,
+              700: 2,
+              500:1
+            }}
+            className='my-masonry-grid'
+            columnClassName='my-masonry-grid_column'
+            >
+              {images.map((image) => (
+              <Card key={CDNURL + user.id + '/' + image.name}>
+                <Card.Img variant='top' src={CDNURL + user.id + '/' + image.name}/>
+                  <Card.Body>
+                    <Button variant='danger' onClick={() => deleteImage(image.name)}>Delete Image</Button>{' '}
+                    <Button variant='primary' href={CDNURL + user.id + '/' + image.name}>Full Size</Button>
+                  </Card.Body>
+              </Card>
+              ))}
+            </Masonry>
         </>
       }
     </Container>
