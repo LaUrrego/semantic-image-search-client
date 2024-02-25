@@ -65,7 +65,7 @@ function App() {
 
     if(data){console.log(data)}
     if(error){
-      alert("Error communicating with Supabase, make sure to use a real e-mail address");
+      alert("Error logging in. Make sure to use a valid account e-mail and password, or sign up for a new account!");
       console.log(error);
     } else {
       alert("Welcome Back!");
