@@ -1,7 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 // container from bootstrap to allow for consistent styling
-import { Container, Form, Button, Row, Col, Card } from 'react-bootstrap';
+import { Container, Form, Button, Card } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSession, useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 // used to generate unique user id's to attach to images
