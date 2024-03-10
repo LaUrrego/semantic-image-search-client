@@ -1,5 +1,7 @@
 import Modal from 'react-bootstrap/Modal';
-import { Button, Row, Col, Card } from 'react-bootstrap';
+import Masonry from 'react-masonry-css'
+import { Button, Row, Col, Card, CardImgOverlay } from 'react-bootstrap';
+import { createImgproxyUrl } from '../imageUtils';
 
 export default function SearchResults({results, showResult, setShowResult, deleteImage}) {
 
@@ -16,21 +18,27 @@ export default function SearchResults({results, showResult, setShowResult, delet
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-            <Row xs={1} md={3} className='g-4'>
+            <Masonry
+              breakpointCols={{
+                default: 4,
+                1100: 3,
+                700: 2,
+                500:1
+              }}
+              className='my-masonry-grid'
+              columnClassName='my-masonry-grid_column'
+              >
                 {results.map((image)=>{
                     return(
-                    <Col key={image.image_id}>
-                        <Card>
-                        <Card.Img variant='top' src={image.image_url}/>
-                        <Card.Body>
-                            <Button variant='danger' onClick={()=> deleteImage(image.name)}>Delete Image</Button>{' '}
-                            <Button variant='primary' href={image.image_url} >Full Size</Button>
-                        </Card.Body>
-                        </Card>
-                    </Col>
-                    )
+                      <Card key={image.image_id} className='image-card'>
+                        <Card.Img variant='top' src={createImgproxyUrl(`${image.image_url}`, 300)}  ></Card.Img>
+                        <CardImgOverlay className='image-overlay' >
+                          <Button className='image-button' variant='danger' onClick={()=>deleteImage(image.name)} >Delete Image</Button>
+                          <Button className='image-button' variant='primary' href={image.image_url} >Full Size</Button>
+                        </CardImgOverlay>
+                      </Card>)
                 })}
-            </Row>
+              </Masonry>
         </Modal.Body>
       </Modal>
     </>

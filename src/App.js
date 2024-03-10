@@ -9,6 +9,8 @@ import { v4 as uuidv4 } from 'uuid'
 import Search from './components/Search'
 // Styling to accomodate various sized images
 import Masonry from 'react-masonry-css'
+// on the fly image resizing
+import { createImgproxyUrl } from './imageUtils';
 
 
 const CDNURL = process.env.REACT_APP_CDNURL;
@@ -261,7 +263,7 @@ function App() {
           <p>Use the choose file button to upload images to your gallery. Use PNG and JPEG only.</p>
           <Search deleteImage={deleteImage} suggestions={suggestions}></Search>
           <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
-            <Form.Control type='file' accept='img/png, img/jpeg' onChange={(e)=> uploadImage(e)}></Form.Control>
+            <Form.Control type='file' accept='image/png, image/jpeg' onChange={(e)=> uploadImage(e)}></Form.Control>
             
           </Form.Group>
           <hr/>
@@ -280,7 +282,7 @@ function App() {
             >
               {images.map((image) => (
               <Card key={CDNURL + user.id + '/' + image.name} className='image-card'>
-                <Card.Img  variant='top' src={CDNURL + user.id + '/' + image.name}/>
+                <Card.Img  variant='top' src={createImgproxyUrl(`${CDNURL + user.id + '/' + image.name}`, 300)}/>
                 <CardImgOverlay className='image-overlay'>
                     <Button className='image-button' variant='danger' onClick={() => deleteImage(image.name)}>Delete Image</Button>
                     <Button className='image-button' variant='primary' href={CDNURL + user.id + '/' + image.name}>Full Size</Button>
