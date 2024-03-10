@@ -13,5 +13,12 @@
   
 }
 
+.suggestion-container {
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
 
-
+.search-list-item:hover {
+  background-color: #51829B;
+  color: white;
+}

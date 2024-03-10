@@ -25,6 +25,17 @@ function App() {
   console.log(email)
   console.log(password)
 
+  let suggestions = [
+    "dogs",
+    "school",
+    "birthday",
+    "car",
+    "graduation ceremony",
+    "lake day",
+    "school documents",
+    "dogs"
+  ];
+
   // function to get all images from a user's folder
   async function getImages(){
     const { data, error } = await supabase
@@ -248,7 +259,7 @@ function App() {
           <p>Current user: {user.email}</p>
           <hr/>
           <p>Use the choose file button to upload images to your gallery. Use PNG and JPEG only.</p>
-          <Search deleteImage={deleteImage}></Search>
+          <Search deleteImage={deleteImage} suggestions={suggestions}></Search>
           <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
             <Form.Control type='file' accept='img/png, img/jpeg' onChange={(e)=> uploadImage(e)}></Form.Control>
             
@@ -269,7 +280,7 @@ function App() {
             >
               {images.map((image) => (
               <Card key={CDNURL + user.id + '/' + image.name}>
-                <Card.Img variant='top' src={CDNURL + user.id + '/' + image.name}/>
+                <Card.Img lazyload variant='top' src={CDNURL + user.id + '/' + image.name}/>
                   <Card.Body>
                     <Button variant='danger' onClick={() => deleteImage(image.name)}>Delete Image</Button>{' '}
                     <Button variant='primary' href={CDNURL + user.id + '/' + image.name}>Full Size</Button>
