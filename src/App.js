@@ -1,7 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 // container from bootstrap to allow for consistent styling
-import { Container, Form, Button, Card } from 'react-bootstrap';
+import { Container, Form, Button, Card, CardImgOverlay } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { useSession, useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 // used to generate unique user id's to attach to images
@@ -279,12 +279,12 @@ function App() {
             columnClassName='my-masonry-grid_column'
             >
               {images.map((image) => (
-              <Card key={CDNURL + user.id + '/' + image.name}>
-                <Card.Img lazyload variant='top' src={CDNURL + user.id + '/' + image.name}/>
-                  <Card.Body>
-                    <Button variant='danger' onClick={() => deleteImage(image.name)}>Delete Image</Button>{' '}
-                    <Button variant='primary' href={CDNURL + user.id + '/' + image.name}>Full Size</Button>
-                  </Card.Body>
+              <Card key={CDNURL + user.id + '/' + image.name} className='image-card'>
+                <Card.Img  variant='top' src={CDNURL + user.id + '/' + image.name}/>
+                <CardImgOverlay className='image-overlay'>
+                    <Button className='image-button' variant='danger' onClick={() => deleteImage(image.name)}>Delete Image</Button>
+                    <Button className='image-button' variant='primary' href={CDNURL + user.id + '/' + image.name}>Full Size</Button>
+                </CardImgOverlay>
               </Card>
               ))}
             </Masonry>
