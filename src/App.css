@@ -14,14 +14,21 @@
 }
 
 .suggestion-container {
+  position: absolute;
+  z-index: 999;
+  width: 100%;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
+  box-shadow: 0 10px 10px 5px rgba(0, 0, 0, 0.5);
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .search-list-item:hover {
   background-color: #51829B;
   color: white;
 }
+
 
 .image-card {
   position: relative; /* Ensures the overlay is positioned relative to the card */

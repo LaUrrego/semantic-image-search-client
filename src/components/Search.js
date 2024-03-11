@@ -19,10 +19,19 @@ export default function Search({deleteImage, suggestions}) {
 
     // Call to microservice storing search results
     async function fetchAndUpdateSuggestions() {
-        let list = await fetch(`http://localhost:5525/all-search-terms`);
+        let list = await fetch(`http://localhost:${process.env.REACT_APP_MS_PORT}/search-terms/all`);
         const data = await list.json();
         setAllSuggestions(data['searchTerms'])
         console.log("This is the Microservice list: ", data['searchTerms'])
+    };
+
+    // Call to microservice for a random suggestion term
+    async function handleRandom(){
+        let response = await fetch(`http://localhost:${process.env.REACT_APP_MS_PORT}/search-terms/random`)
+        const data = await response.json()
+        console.log("Random term is: ", data['randomTerm'])
+        setPrompt(data['randomTerm']);
+        
     };
     
   useEffect(()=>{
@@ -73,15 +82,16 @@ export default function Search({deleteImage, suggestions}) {
         }
     };
 
+
     // Search button is clicked
     const handleClick = async ()=> {
         console.log("prompt is: ", prompt);
         
-        // handle whether search term needs to be added to the server DB or not
+        // handle whether search term needs to be added to the microservice server DB or not
         if (!allSuggestions.includes(prompt)){
             // add new term to server
             try {
-                const response = await fetch('http://localhost:5525/add-search-term', {
+                const response = await fetch(`http://localhost:${process.env.REACT_APP_MS_PORT}/search-terms/add`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -175,12 +185,13 @@ export default function Search({deleteImage, suggestions}) {
                         onBlur={handleBlur}
                         value={prompt}
                     />
+                    <Button variant='outline-secondary' onClick={handleRandom}  >Random!</Button>
                     </InputGroup>
                     
                     {/**Container to hold search suggestion display */}
 
                     {showSuggestions &&(
-                        <div className='suggestion-container' style={{position:'absolute', zIndex:'999', width:'100%', background:'white'}} >
+                        <div className='suggestion-container' >
                             {filteredSuggestions.map((suggestion, index)=>(
                                 <ListGroup.Item className='search-list-item' key={index} onClick={()=>handleSuggestionClick(suggestion)}>
                                     {suggestion}

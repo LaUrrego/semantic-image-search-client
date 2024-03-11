@@ -297,3 +297,6 @@ function App() {
 }
 
 export default App;
+// run app with npm start
+// run docker container for image utility with:
+// docker run -p 8080:8080 -it darthsim/imgproxy
