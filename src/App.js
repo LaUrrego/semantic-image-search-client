@@ -226,6 +226,8 @@ function App() {
                     <Form.Control
                     type='email'
                     id="email"
+                    placeholder='E-mail'
+                    className='login-input'
                     onChange={(e)=> setEmail(e.target.value)}
                     />
                     </Form.Group>
@@ -235,6 +237,8 @@ function App() {
                     <Form.Control
                     type="password"
                     id="inputPassword"
+                    placeholder='Password'
+                    className='login-input'
                     onChange={(e)=>setPassword(e.target.value)}
                     />
                     </Form.Group>
@@ -251,7 +255,7 @@ function App() {
                 </Form>
             </Card.Body>
           </Card>
-        </>
+      </> 
 
         :
 
