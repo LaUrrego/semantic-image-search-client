@@ -9,7 +9,6 @@ import SearchResults from './SearchResults';
 export default function Search({deleteImage}) {
     const supabase = useSupabaseClient();
     const user = useUser();
-
     const [allSuggestions, setAllSuggestions] = useState([]);
     const [filteredSuggestions, setFilteredSuggestions] = useState([]);
     const [prompt, setPrompt] = useState("");
@@ -178,7 +177,7 @@ export default function Search({deleteImage}) {
                     <Button variant='outline-secondary' onClick={handleClick}  >Submit</Button>
                     <Form.Control
                         type="input"
-                        placeholder='Search using natural language...'
+                        placeholder='Search your photos!'
                         onChange={handleSearchInteration}
                         onFocus={handleSearchFocus}
                         onBlur={handleBlur}

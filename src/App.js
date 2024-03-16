@@ -14,8 +14,7 @@ import { createImgproxyUrl } from './imageUtils';
 
 
 const CDNURL = process.env.REACT_APP_CDNURL;
-// getting images is then:
-// CDNURL + user.id + '/' + image.name 
+// image links take the form of: CDNURL + user.id + '/' + image.name 
 
 function App() {
   const user = useUser();
@@ -37,9 +36,7 @@ function App() {
         offset: 0,
         sortBy: { column: 'name', order: 'asc'}
       });
-      // returns a list that looks like:
-      // [image1, image2, image3]
-      // image1 : { name: "filename.png" }
+
       // image loading works by appending to the end of our CDN link
       if(data !== null) {
         setImages(data)
@@ -49,14 +46,15 @@ function App() {
       }
   };
 
-  // this is for loading code in an initial state, that is then changed based on when a given parameter changes
-  // here we load images to the screen whenever user changes
+
+
   useEffect(()=>{
     if(user){
       // load with all images of the user as long as the user exists 
       getImages();
     }
   },[user]);
+
 
   // function to use the entered e-mail with Supabase authentication and useState
   async function loginPage() {
@@ -74,6 +72,7 @@ function App() {
     }
   };
 
+
   async function signUp() {
     const {data, error} = await supabase.auth.signUp({
       email: email,
@@ -89,11 +88,12 @@ function App() {
     }
   };
 
-  // function to signout a user, leveraging useUser
+
   async function signOut(){
     const {error} = await supabase.auth.signOut();
     if(error){console.log("error logging out: ", error)};
   };
+  
   
   // function to upload an image to Supabase 
   async function uploadImage(e){
@@ -149,10 +149,9 @@ function App() {
       } else {
         console.log(error)
       };
-
   };
 
-  // function to delete images from database
+
   async function deleteImage(imageName){
     // provide a confirmation of deletion
     if(window.confirm("Are you sure you want to delete?")){
@@ -182,7 +181,6 @@ function App() {
           // no errors with deleting from either
           getImages();
         }
-
       } catch (error){
         alert("An unexpected error occurred:", error.message);
       }
@@ -207,7 +205,9 @@ function App() {
                 <Form>
                   <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
                     <Form.Text className='my-3'>
-                      Enter your login details to continue. If it's your first time here, enter a new e-mail and password (6 character minimum) to sign up! You will need to confirm your e-mail before getting started!
+                      Enter your login details to continue. If it's your first time here, 
+                      enter a new e-mail and password (6 character minimum) to sign up! You will 
+                      need to confirm your e-mail before getting started!
                     </Form.Text>
 
                     <Form.Group>
@@ -253,7 +253,13 @@ function App() {
           <Button onClick={()=> signOut()}>Sign Out</Button>
           <p>Current user: {user.email}</p>
           <hr/>
-          <p>Use the choose file button to upload images to your gallery. Use PNG and JPEG only.</p>
+          <p>
+            Use the choose file button to upload images to your gallery. 
+            PNG and JPEG files only. Use the search bar with natural language
+             prompts to your photos easier. The suggestions drop-down will autocomplete 
+             as you type, and offer suggestions for searches based on your previous search 
+             history! Click the Random button to get a previously searched promp at random to try!
+          </p>
           <Search deleteImage={deleteImage}></Search>
           <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
             <Form.Control type='file' accept='image/png, image/jpeg' onChange={(e)=> uploadImage(e)}></Form.Control>
