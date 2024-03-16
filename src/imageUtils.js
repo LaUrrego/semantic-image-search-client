@@ -1,4 +1,5 @@
 // requesting width only to ensure aspect ratio is maintained
+// Docker instance of imgProxy 
 export const createImgproxyUrl = (imageUrl, width) => {
     const encodeURL = 
     encodeURIComponent(imageUrl);

@@ -6,7 +6,7 @@ import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 import SearchResults from './SearchResults';
 
 
-export default function Search({deleteImage, suggestions}) {
+export default function Search({deleteImage}) {
     const supabase = useSupabaseClient();
     const user = useUser();
 
@@ -34,11 +34,10 @@ export default function Search({deleteImage, suggestions}) {
         
     };
     
-  useEffect(()=>{
-    // only once at mount
-    fetchAndUpdateSuggestions();
-  
-},[]);
+    useEffect(()=>{
+        // only once at mount
+        fetchAndUpdateSuggestions();
+        },[]);
 
     // For when focus is removed from the search bar, introduce a delay to let selection occur
     const handleBlur = () => {

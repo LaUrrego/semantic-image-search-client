@@ -19,7 +19,6 @@ const CDNURL = process.env.REACT_APP_CDNURL;
 
 function App() {
   const user = useUser();
-  const session = useSession()
   const supabase = useSupabaseClient();
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -27,16 +26,6 @@ function App() {
   console.log(email)
   console.log(password)
 
-  let suggestions = [
-    "dogs",
-    "school",
-    "birthday",
-    "car",
-    "graduation ceremony",
-    "lake day",
-    "school documents",
-    "dogs"
-  ];
 
   // function to get all images from a user's folder
   async function getImages(){
@@ -265,14 +254,14 @@ function App() {
           <p>Current user: {user.email}</p>
           <hr/>
           <p>Use the choose file button to upload images to your gallery. Use PNG and JPEG only.</p>
-          <Search deleteImage={deleteImage} suggestions={suggestions}></Search>
+          <Search deleteImage={deleteImage}></Search>
           <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
             <Form.Control type='file' accept='image/png, image/jpeg' onChange={(e)=> uploadImage(e)}></Form.Control>
             
           </Form.Group>
           <hr/>
           <h3>Your Gallery</h3>
-            {/** getting images is then: CDNURL + user.id + '/' + image.name 
+            {/** getting images is : CDNURL + user.id + '/' + image.name 
             /*https://www.npmjs.com/package/react-masonry-css*/}
             <Masonry
             breakpointCols={{

@@ -1,6 +1,6 @@
 import Modal from 'react-bootstrap/Modal';
 import Masonry from 'react-masonry-css'
-import { Button, Row, Col, Card, CardImgOverlay } from 'react-bootstrap';
+import { Button, Card, CardImgOverlay } from 'react-bootstrap';
 import { createImgproxyUrl } from '../imageUtils';
 
 export default function SearchResults({results, showResult, setShowResult, deleteImage}) {
