@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 // container from bootstrap to allow for consistent styling
 import { Container, Form, Button, Card, CardImgOverlay } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css'
-import { useSession, useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
+import { useUser, useSupabaseClient } from '@supabase/auth-helpers-react';
 // used to generate unique user id's to attach to images
 import { v4 as uuidv4 } from 'uuid'
 import Search from './components/Search'
@@ -190,12 +190,6 @@ function App() {
   return (
     <Container align='center' className='container-sm mt-4'>
       {
-        /**
-         * If user null, show login page
-         * otherwise, show their gallery
-         */
-      }
-      {
         user === null ? 
         <>
           <h1>Welcome to Pic-Search!</h1>
@@ -254,11 +248,11 @@ function App() {
           <p>Current user: {user.email}</p>
           <hr/>
           <p>
-            Use the choose file button to upload images to your gallery. 
-            PNG and JPEG files only. Use the search bar with natural language
-             prompts to your photos easier. The suggestions drop-down will autocomplete 
+            Use the <strong>Choose File</strong> button to upload images to your gallery. 
+            <strong>Upload limit is 20MB, PNG and JPEG files only.</strong> Use the search bar with natural language
+             prompts to find your photos easier. The suggestions drop-down will autocomplete 
              as you type, and offer suggestions for searches based on your previous search 
-             history! Click the Random button to get a previously searched promp at random to try!
+             history! <strong>Click the Random button to get a previously searched prompt at random to try!</strong>
           </p>
           <Search deleteImage={deleteImage}></Search>
           <Form.Group className='mb-3' style={{maxWidth: "500px"}}>
